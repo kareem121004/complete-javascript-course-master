@@ -73,7 +73,6 @@ const transform = function (str, fn) {
 transform("JavaScript is Great!", oneWord);
 transform("JavaScript is Great!", upperFirstWord);
 
-*/
 
 // Functions Returning Functions
 
@@ -91,3 +90,89 @@ greet("Hi")("MO");
 const greet2 = (greeting) => (name) => console.log(`${greeting} ${name}`);
 
 greet2("hello")("kimo");
+
+
+*/
+
+const lufthansa = {
+  name: "lufthansa",
+  iataCode: "LH",
+  booking: [],
+
+  book(flightNum, name) {
+    console.log(
+      `${name} booked a seat on ${this.name} ${this.iataCode}${flightNum}`
+    );
+    this.booking.push({ flight: `${this.iataCode}${flightNum}`, name });
+  },
+};
+
+lufthansa.book(239, "Karim Adel");
+lufthansa.book(344, "Mo Salah");
+console.log(lufthansa);
+
+const euroWings = {
+  name: "euroWings",
+  iataCode: "EW",
+  booking: [],
+};
+
+const book = lufthansa.book;
+
+//Error this is undefined
+// book(333, "Mohamed");
+
+// Call Method
+book.call(lufthansa, 458, "Trent Arnold");
+console.log(lufthansa);
+book.call(euroWings, 786, "Andy Robertson");
+console.log(euroWings);
+
+// Apply Metod
+const flightData = [635, "Darwin Nunez"];
+book.apply(euroWings, flightData); // takes an array
+console.log(euroWings);
+
+//Or use this
+book.call(euroWings, ...flightData);
+console.log(euroWings);
+
+// Bind Method
+
+const bookEw = book.bind(euroWings); // returns a function with this
+bookEw(321, "Steven Gerard");
+console.log(euroWings);
+
+const bookEW23 = book.bind(euroWings, 23);
+bookEW23("Luis Diaz");
+bookEW23("Allison Becker");
+console.log(euroWings);
+
+lufthansa.plane = 200;
+lufthansa.buyPlane = function () {
+  console.log(this);
+  this.plane++;
+  console.log(this.plane);
+};
+lufthansa.buyPlane();
+
+// document.querySelector(".buy").addEventListener("click", lufthansa.buyPlane); // Nan as this will point to the document.querySelector(".buy")
+
+document
+  .querySelector(".buy")
+  .addEventListener("click", lufthansa.buyPlane.bind(lufthansa));
+
+const addTax = (rate, value) => value + value * rate;
+console.log(addTax(0.1, 200));
+
+const addVAT = addTax.bind(null, 0.23);
+console.log(addVAT(100));
+
+const addTax2 = function (rate) {
+  return function (value) {
+    return value + value * rate;
+  };
+};
+
+const addVAT2 = addTax2(0.1)(200);
+console.log(addVAT2);
