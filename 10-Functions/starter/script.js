@@ -92,7 +92,7 @@ const greet2 = (greeting) => (name) => console.log(`${greeting} ${name}`);
 greet2("hello")("kimo");
 
 
-*/
+
 
 const lufthansa = {
   name: "lufthansa",
@@ -176,3 +176,47 @@ const addTax2 = function (rate) {
 
 const addVAT2 = addTax2(0.1)(200);
 console.log(addVAT2);
+
+*/
+
+//
+
+// Coding Challenge #1
+
+const poll = {
+  question: "What is your favourite programming language?",
+  options: ["0: JavaScript", "1: Python", "2: Rust", "3: C++"],
+  // This generates [0, 0, 0, 0]. More in the next section!
+  answers: new Array(4).fill(0),
+
+  registerNewAnswer() {
+    let ans;
+    let flag = false;
+    while (!flag) {
+      {
+        ans = prompt(
+          `${this.question} \n ${this.options.join(
+            "\n"
+          )} \n Write option number`
+        );
+        if (ans > 3 || ans < 0 || isNaN(ans)) {
+          alert("Please Enter a valid Number");
+        } else {
+          flag = true;
+        }
+      }
+    }
+    this.answers[ans]++;
+    this.displayResults();
+    this.displayResults("string");
+  },
+
+  displayResults(type = "array") {
+    if (type === "array") console.log(this.answers);
+    else if (type === "string") console.log(`Poll results are ${this.answers}`);
+  },
+};
+
+const btn = document.querySelector(".poll");
+btn.addEventListener("click", poll.registerNewAnswer.bind(poll));
+// console.log(poll.answers);
