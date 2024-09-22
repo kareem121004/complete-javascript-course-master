@@ -177,7 +177,7 @@ const addTax2 = function (rate) {
 const addVAT2 = addTax2(0.1)(200);
 console.log(addVAT2);
 
-*/
+
 
 //
 
@@ -220,3 +220,73 @@ const poll = {
 const btn = document.querySelector(".poll");
 btn.addEventListener("click", poll.registerNewAnswer.bind(poll));
 // console.log(poll.answers);
+
+
+
+// Immediately Invoked Function Expressions
+
+(function () {
+  console.log("this will run once");
+})();
+
+(() => console.log("this will run once arrow Function"))();
+
+
+
+
+//  Closures
+
+const bookSecure = function () {
+  let passengerCount = 0;
+
+  return function () {
+    passengerCount++;
+    console.log(`${passengerCount}: passenger`);
+  };
+};
+
+const booker = bookSecure();
+booker();
+booker();
+booker();
+
+console.dir(booker);
+
+
+
+
+// Example 1
+
+let f;
+
+const g = function () {
+  const a = 23;
+  f = function () {
+    console.log(a * 2);
+  };
+};
+g();
+f();
+console.dir(f);
+
+
+
+// Example 2
+
+const boardPassengers = function (n, wait) {
+  const passGroup = n / 3;
+
+  setTimeout(function () {
+    console.log(`We are now boarding all ${n} passengers`);
+    console.log(`There are 3 Groups each with ${passGroup} Passengers`);
+  }, wait * 1000);
+
+  console.log(`We will start boarding in ${wait} Seconds...`);
+};
+
+// The Closures has priority over scope Chain
+const passGroup = 100;
+boardPassengers(180, 5);
+
+
+*/
