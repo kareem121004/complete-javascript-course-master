@@ -289,4 +289,18 @@ const passGroup = 100;
 boardPassengers(180, 5);
 
 
+
+// Code Challenge 2
+
+(function () {
+  const header = document.querySelector("h1");
+  header.style.color = "red";
+  document.addEventListener("click", function () {
+    header.style.color = "blue";
+  });
+})();
+
+
+// Done With This Section 😃
+
 */
