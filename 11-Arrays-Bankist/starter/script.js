@@ -76,7 +76,7 @@ const displayMovement = function (movement) {
   });
 };
 
-displayMovement(account1.movements);
+// displayMovement(account1.movements);
 
 /////////////////////////////////////////////////
 /////////////////////////////////////////////////
@@ -181,5 +181,24 @@ currencySet.forEach(function (value, key, set) {
   console.log(set);
 });
 // the Set has neither key nor index
+
+
+
+// First code Challenge ✅
+const checkDogs = function (dogsJulia, dogsKate) {
+  const newJulia = dogsJulia.slice(1, -2);
+  const arr = [...newJulia, ...dogsKate];
+  // const arr = newJulia.concat(dogsKate);
+
+  arr.forEach(function (value, idx) {
+    value >= 3 &&
+      console.log(
+        `Dog number ${idx + 1} is an adult, and is ${value} years old`
+      );
+    value < 3 && console.log(`Dog number ${idx + 1} is still a puppy 🐶`);
+  });
+};
+
+checkDogs([3, 5, 2, 12, 7], [4, 1, 15, 8, 3]);
 
 */
