@@ -61,15 +61,32 @@ const inputLoanAmount = document.querySelector(".form__input--loan-amount");
 const inputCloseUsername = document.querySelector(".form__input--user");
 const inputClosePin = document.querySelector(".form__input--pin");
 
+const displayMovement = function (movement) {
+  containerMovements.innerHTML = "";
+  movement.forEach(function (value, idx) {
+    const type = value > 0 ? "deposit" : "withdrawal";
+    const html = `
+    <div class="movements__row">
+        <div class="movements__type movements__type--${type}">${
+      idx + 1
+    } ${type} </div>
+        <div class="movements__value">${value}</div>
+    </div>`;
+    containerMovements.insertAdjacentHTML("afterbegin", html);
+  });
+};
+
+displayMovement(account1.movements);
+
 /////////////////////////////////////////////////
 /////////////////////////////////////////////////
 // LECTURES
 
-const currencies = new Map([
-  ["USD", "United States dollar"],
-  ["EUR", "Euro"],
-  ["GBP", "Pound sterling"],
-]);
+// const currencies = new Map([
+//   ["USD", "United States dollar"],
+//   ["EUR", "Euro"],
+//   ["GBP", "Pound sterling"],
+// ]);
 
 // const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
 
@@ -144,5 +161,25 @@ movements.forEach(function (ele, idx, array) {
 
 // There are neither break nor continue in the FOREACH function.....
 
+
+const currencies = new Map([
+  ["USD", "United States dollar"],
+  ["EUR", "Euro"],
+  ["GBP", "Pound sterling"],
+]);
+
+currencies.forEach(function (value, key, map) {
+  console.log(`the value is ${value}, and the key is ${key}`);
+  console.log(map);
+});
+
+const currencySet = new Set(["USD", "EUR", "GDB", "USD"]);
+console.log(currencySet);
+
+currencySet.forEach(function (value, key, set) {
+  console.log(value, key); //USD USD
+  console.log(set);
+});
+// the Set has neither key nor index
 
 */
