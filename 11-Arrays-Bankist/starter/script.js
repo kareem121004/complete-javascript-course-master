@@ -76,7 +76,28 @@ const displayMovement = function (movement) {
   });
 };
 
-// displayMovement(account1.movements);
+displayMovement(account1.movements);
+
+const calculateBalnace = function (movements) {
+  const balance = movements.reduce((acc, cur) => acc + cur);
+  labelBalance.textContent = balance + "£";
+};
+
+calculateBalnace(account1.movements);
+
+const computeUserName = function (accounts) {
+  accounts.forEach(function (account) {
+    account.userName = account.owner
+      .toLowerCase()
+      .split(" ")
+      .map((value) => value.at(0))
+      .join("");
+  });
+};
+
+computeUserName(accounts);
+
+// console.log(accounts);
 
 /////////////////////////////////////////////////
 /////////////////////////////////////////////////
@@ -200,5 +221,41 @@ const checkDogs = function (dogsJulia, dogsKate) {
 };
 
 checkDogs([3, 5, 2, 12, 7], [4, 1, 15, 8, 3]);
+
+
+
+// MAP FUNCTION
+const euroToUsd = 1.1;
+const newMovement = movements.map(function (mov) {
+  return mov * euroToUsd;
+});
+
+// OR
+const newMovement2 = movements.map((mov) => mov * euroToUsd);
+console.log(newMovement);
+console.log(newMovement2);
+
+
+
+// FILTER FUNCTION
+const depsit = movements.filter((mov, idx, array) => mov > 0);
+console.log(depsit);
+
+const withDrawal = movements.filter((mov) => mov < 0);
+console.log(withDrawal);
+
+
+
+
+// THE REDUCE FUNCTION
+const balance = movements.reduce((acc, cur) => acc + cur);
+console.log(balance);
+
+// Max function using reduce
+const max = movements.reduce(function (acc, cur) {
+  if (cur > acc) acc = cur;
+  return acc;
+}, movements[0]);
+console.log(max);
 
 */
