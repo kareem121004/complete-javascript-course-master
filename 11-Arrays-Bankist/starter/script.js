@@ -70,7 +70,7 @@ const displayMovement = function (movement) {
         <div class="movements__type movements__type--${type}">${
       idx + 1
     } ${type} </div>
-        <div class="movements__value">${value}</div>
+        <div class="movements__value">${value}£</div>
     </div>`;
     containerMovements.insertAdjacentHTML("afterbegin", html);
   });
@@ -84,6 +84,27 @@ const calculateBalnace = function (movements) {
 };
 
 calculateBalnace(account1.movements);
+
+const calDisplaySummary = function (movements) {
+  const income = movements
+    .filter((mov) => mov > 0)
+    .reduce((acc, cur) => acc + cur, 0);
+  labelSumIn.textContent = income + "£";
+
+  const outs = movements
+    .filter((mov) => mov < 0)
+    .reduce((acc, cur) => acc + cur, 0);
+  labelSumOut.textContent = `${outs * -1}£`;
+
+  const interest = movements
+    .filter((mov) => mov > 0)
+    .map((mov) => mov * 0.012)
+    .filter((mov) => mov >= 1)
+    .reduce((acc, cur) => acc + cur, 0);
+  labelSumInterest.textContent = interest + "£";
+};
+
+calDisplaySummary(account1.movements);
 
 const computeUserName = function (accounts) {
   accounts.forEach(function (account) {
@@ -257,5 +278,25 @@ const max = movements.reduce(function (acc, cur) {
   return acc;
 }, movements[0]);
 console.log(max);
+
+
+
+// Code Challenge 2 AND 3 ✅
+const calcAverageHumanAge = function (dogs) {
+  const humanAge = dogs
+    .map(function (value) {
+      if (value <= 2) return 2 * value;
+      else {
+        return 16 + value * 4;
+      }
+    })
+    .filter((value) => value >= 18)
+    .reduce((acc, cur, i, array) => acc + cur / array.length, 0);
+
+  return humanAge;
+};
+
+console.log(calcAverageHumanAge([5, 2, 4, 1, 15, 8, 3]));
+console.log(calcAverageHumanAge([16, 6, 10, 5, 6, 1, 4]));
 
 */
