@@ -76,35 +76,29 @@ const displayMovement = function (movement) {
   });
 };
 
-displayMovement(account1.movements);
-
 const calculateBalnace = function (movements) {
   const balance = movements.reduce((acc, cur) => acc + cur);
   labelBalance.textContent = balance + "£";
 };
 
-calculateBalnace(account1.movements);
-
-const calDisplaySummary = function (movements) {
-  const income = movements
+const calcDisplaySummary = function (account) {
+  const income = account.movements
     .filter((mov) => mov > 0)
     .reduce((acc, cur) => acc + cur, 0);
   labelSumIn.textContent = income + "£";
 
-  const outs = movements
+  const outs = account.movements
     .filter((mov) => mov < 0)
     .reduce((acc, cur) => acc + cur, 0);
   labelSumOut.textContent = `${outs * -1}£`;
 
-  const interest = movements
+  const interest = account.movements
     .filter((mov) => mov > 0)
-    .map((mov) => mov * 0.012)
+    .map((mov) => (mov * account.interestRate) / 100)
     .filter((mov) => mov >= 1)
     .reduce((acc, cur) => acc + cur, 0);
   labelSumInterest.textContent = interest + "£";
 };
-
-calDisplaySummary(account1.movements);
 
 const computeUserName = function (accounts) {
   accounts.forEach(function (account) {
@@ -118,8 +112,30 @@ const computeUserName = function (accounts) {
 
 computeUserName(accounts);
 
-// console.log(accounts);
+const displayUI = function (account) {
+  displayMovement(account.movements);
+  calculateBalnace(account.movements);
+  calcDisplaySummary(account);
+};
 
+// Event Handlers
+
+let currentAccount;
+btnLogin.addEventListener("click", function (e) {
+  e.preventDefault();
+  currentAccount = accounts.find(
+    (acc) => acc.userName === inputLoginUsername.value
+  );
+  if (currentAccount?.pin === Number(inputLoginPin.value)) {
+    labelWelcome.textContent = `Welcome Back ${
+      currentAccount.owner.split(" ")[0]
+    }`;
+    containerApp.style.opacity = "1";
+    inputLoginUsername.value = inputLoginPin.value = "";
+
+    displayUI(currentAccount);
+  }
+});
 /////////////////////////////////////////////////
 /////////////////////////////////////////////////
 // LECTURES
@@ -130,7 +146,7 @@ computeUserName(accounts);
 //   ["GBP", "Pound sterling"],
 // ]);
 
-// const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
+const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
 
 /////////////////////////////////////////////////
 
@@ -298,5 +314,17 @@ const calcAverageHumanAge = function (dogs) {
 
 console.log(calcAverageHumanAge([5, 2, 4, 1, 15, 8, 3]));
 console.log(calcAverageHumanAge([16, 6, 10, 5, 6, 1, 4]));
+
+
+
+// THE FIND METHOD
+
+const firstWithdrawal = movements.find((mov) => mov < 0); // -400
+console.log(firstWithdrawal);
+
+console.log(accounts);
+
+const account = accounts.find((acc) => acc.owner === "Sarah Smith");
+console.log(account);
 
 */
