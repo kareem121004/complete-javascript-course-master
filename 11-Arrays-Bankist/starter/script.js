@@ -61,9 +61,10 @@ const inputLoanAmount = document.querySelector(".form__input--loan-amount");
 const inputCloseUsername = document.querySelector(".form__input--user");
 const inputClosePin = document.querySelector(".form__input--pin");
 
-const displayMovement = function (movement) {
+const displayMovement = function (movement, sort = false) {
   containerMovements.innerHTML = "";
-  movement.forEach(function (value, idx) {
+  const movs = sort ? movement.slice().sort((a, b) => a - b) : movement;
+  movs.forEach(function (value, idx) {
     const type = value > 0 ? "deposit" : "withdrawal";
     const html = `
     <div class="movements__row">
@@ -154,6 +155,50 @@ btnTransfer.addEventListener("click", function (e) {
     inputTransferTo.value = inputTransferAmount.value = "";
     displayUI(currentAccount);
   }
+});
+
+// Loan Functionality
+
+btnLoan.addEventListener("click", function (e) {
+  e.preventDefault();
+  if (
+    Number(inputLoanAmount.value) > 0 &&
+    currentAccount.movements.some(
+      (mov) => mov >= Number(inputLoanAmount.value) * 0.1
+    )
+  ) {
+    currentAccount.movements.push(Number(inputLoanAmount.value));
+    displayUI(currentAccount);
+  }
+  inputLoanAmount.value = "";
+});
+
+// Close
+
+btnClose.addEventListener("click", function (e) {
+  e.preventDefault();
+  const confirmUser = inputCloseUsername.value;
+  const confirmPin = Number(inputClosePin.value);
+
+  inputCloseUsername.value = inputClosePin.value = "";
+  if (
+    currentAccount.userName === confirmUser &&
+    currentAccount.pin === confirmPin
+  ) {
+    const accountToDelete = accounts.findIndex(
+      (acc) => acc.userName === confirmUser && acc.pin === confirmPin
+    );
+    accounts.splice(accountToDelete, 1);
+    containerApp.style.opacity = 0;
+  }
+});
+
+// Sort
+let sorted = false;
+btnSort.addEventListener("click", function (e) {
+  e.preventDefault();
+  displayMovement(currentAccount.movements, !sorted);
+  sorted = !sorted;
 });
 /////////////////////////////////////////////////
 /////////////////////////////////////////////////
@@ -345,5 +390,76 @@ console.log(accounts);
 
 const account = accounts.find((acc) => acc.owner === "Sarah Smith");
 console.log(account);
+
+
+
+// Some Method or u can call it any
+
+console.log(movements.includes(-130));
+
+console.log(movements.some((mov) => mov === -130));
+
+const anyDeposit = movements.some((mov) => mov > 0);
+console.log(anyDeposit);
+
+
+// Every Method
+
+console.log(account4.movements.every((mov) => mov > 0));
+
+
+
+const arr = [[1, 2, 3], [4, 5, 6], 7, 8];
+console.log(arr.flat());
+
+const arrDeep = [[[1, 2], 3], [4, [5, 6]], 7, 8];
+console.log(arrDeep.flat(2));
+
+
+// Flat
+const mov = accounts
+  .map((acc) => acc.movements)
+  .flat()
+  .reduce((acc, cur) => acc + cur, 0);
+console.log(mov);
+
+// FlatMap
+const mov2 = accounts
+  .flatMap((acc) => acc.movements)
+  .reduce((acc, cur) => acc + cur, 0);
+console.log(mov2);
+
+
+
+// SORT
+
+const arr = ["karim", "mo", "ahemd", "hi"];
+console.log(arr.sort()); // it mutates the original array
+
+console.log(movements.sort()); // this will not work as it changes the values to string first
+
+// Return < 0 A ,B Keep order
+// Return > 0 B, A Switch order
+
+// Ascending
+// console.log(
+//   movements.sort((a, b) => {
+//     if (a > b) return 1;
+//     if (b > a) return -1;
+//   })
+// );
+
+console.log(movements.sort((a, b) => a - b));
+
+// Descending
+
+// console.log(
+//   movements.sort((a, b) => {
+//     if (a > b) return -1;
+//     if (b > a) return 1;
+//   })
+// );
+
+console.log(movements.sort((a, b) => b - a));
 
 */
