@@ -486,7 +486,7 @@ labelBalance.addEventListener("click", function () {
   console.log(movementsUI);
 });
 
-*/
+
 
 // ARRAY Practice
 // 1:
@@ -521,10 +521,121 @@ const sumsObject = accounts
 
 console.log(sumsObject);
 
-// 4
+// 4:
 const mapUsingReduce = movements.reduce((acc, cur) => {
   cur > 0 && acc.push(cur);
   return acc;
 }, []);
 
 console.log(mapUsingReduce);
+
+
+
+
+// 5:
+// this is a nice title -> This Is a Nice Title
+const convertTitleCase = function (letter) {
+  const exceptions = ["a", "an", "and", "the", "but", "or", "on", "in", "with"];
+  const titled = letter
+    .toLowerCase()
+    .split(" ")
+    .map((word) => {
+      if (!exceptions.includes(word))
+        word = word[0].toUpperCase() + word.slice(1);
+      return word;
+    });
+  return titled.join(" ");
+};
+
+console.log(convertTitleCase("this is a nice title"));
+
+
+
+
+
+// Code Challenge 💀
+const dogs = [
+  { weight: 22, curFood: 250, owners: ["Alice", "Bob"] },
+  { weight: 8, curFood: 200, owners: ["Matilda"] },
+  { weight: 13, curFood: 275, owners: ["Sarah", "John"] },
+  { weight: 32, curFood: 340, owners: ["Michael"] },
+];
+
+// 1
+dogs.forEach(function (currentObj) {
+  currentObj.recommendedFood = Math.trunc(currentObj.weight ** 0.75 * 28);
+});
+
+// 2
+const obj = dogs.find(function (currentObj) {
+  if (currentObj.owners.find((name) => name === "Sarah")) return currentObj;
+});
+
+if (obj.recommendedFood < obj.curFood)
+  console.log("Sarah's dog is eating too much");
+else {
+  console.log("Sarah's dog is eating too little");
+}
+
+// 3
+const ownersEatTooMuch = dogs
+  .filter((dog) => dog.curFood > dog.recommendedFood)
+  .flatMap((dog) => dog.owners);
+console.log(ownersEatTooMuch);
+
+const ownersEatTooLittle = dogs
+  .filter((dog) => dog.curFood < dog.recommendedFood)
+  .flatMap((dog) => dog.owners);
+console.log(ownersEatTooLittle);
+
+// 4
+const str1 = ownersEatTooMuch.reduce(function (acc, cur, idx, array) {
+  if (idx < array.length - 1) acc += cur + " and ";
+  else {
+    acc += cur + "'s dogs eat too much!";
+  }
+  return acc;
+}, "");
+
+const str2 = ownersEatTooLittle.reduce(function (acc, cur, idx, array) {
+  if (idx < array.length - 1) acc += cur + " and ";
+  else {
+    acc += cur + "'s dogs eat too little!";
+  }
+  return acc;
+}, "");
+
+// 5
+const sameAmout = dogs.some((dog) => dog.curFood === dog.recommendedFood);
+
+// 6
+
+const checkOk = function (dog) {
+  const range = dog.recommendedFood * 0.1;
+  if (
+    dog.curFood < dog.recommendedFood + range &&
+    dog.curFood > dog.recommendedFood - range
+  )
+    return dog;
+};
+const okAmout = dogs.some(checkOk);
+
+// 7
+const arrayEatingOk = dogs.filter(checkOk);
+
+// 8
+
+const sortedCopy = dogs
+  .slice()
+  .sort((a, b) => a.recommendedFood - b.recommendedFood);
+
+console.log(obj);
+console.log(str1);
+console.log(str2);
+console.log(sameAmout);
+console.log(okAmout);
+console.log(arrayEatingOk);
+console.log(sortedCopy);
+
+// Finally the Section is Over 🎂
+*/
