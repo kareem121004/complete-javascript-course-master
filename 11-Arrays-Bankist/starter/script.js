@@ -462,4 +462,69 @@ console.log(movements.sort((a, b) => a - b));
 
 console.log(movements.sort((a, b) => b - a));
 
+
+
+const x = new Array(7);
+console.log(x.fill(1, 5, 6));
+
+const z = Array.from({ length: 7 }, (cur, idx) => idx + 1);
+console.log(z);
+
+const random = Array.from({ length: 100 }, (_, idx) =>
+  Math.trunc(Math.random() * idx + 1)
+);
+console.log(random);
+
+
+
+
+labelBalance.addEventListener("click", function () {
+  const movementsUI = Array.from(
+    document.querySelectorAll(".movements__value"),
+    (ele) => Number(ele.textContent.replace("£", ""))
+  );
+  console.log(movementsUI);
+});
+
 */
+
+// ARRAY Practice
+// 1:
+const allInOne = accounts
+  .flatMap((acc) => acc.movements)
+  .filter((mov) => mov > 0)
+  .reduce((acc, cur) => acc + cur, 0);
+console.log(allInOne);
+
+//  2:
+
+const numDeposits1000 = accounts
+  .flatMap((acc) => acc.movements)
+  .reduce((acc, cur) => {
+    if (cur >= 1000) acc++;
+    return acc;
+  }, 0);
+console.log(numDeposits1000);
+
+// 3:
+
+const sumsObject = accounts
+  .flatMap((acc) => acc.movements)
+  .reduce(
+    (acc, cur) => {
+      // cur > 0 ? (acc.deposits += cur) : (acc.withDrawal += cur);
+      acc[cur > 0 ? "deposits" : "withDrawal"] += cur;
+      return acc;
+    },
+    { deposits: 0, withDrawal: 0 }
+  );
+
+console.log(sumsObject);
+
+// 4
+const mapUsingReduce = movements.reduce((acc, cur) => {
+  cur > 0 && acc.push(cur);
+  return acc;
+}, []);
+
+console.log(mapUsingReduce);
