@@ -255,7 +255,7 @@ console.log(Number.isInteger(23));
 console.log(Number.isInteger(23.0));
 console.log(Number.isInteger(23 / 0));
 
-*/
+
 
 console.log(Math.sqrt(25));
 console.log(25 ** (1 / 2)); // 5
@@ -277,3 +277,74 @@ console.log(Math.floor(-23.7)); // -24
 
 console.log((2.56).toFixed(0)); // 3 string
 console.log(+(2.5666).toFixed(3));
+
+
+
+
+const diameter = 287_460_000_000;
+console.log(diameter);
+
+const transFee1 = 15_00;
+const transFee2 = 1_500;
+
+// console.log(Number("223_888")); // NAN (_)
+console.log(Number("223_888".replaceAll("_", "")));
+
+
+
+
+// BIG INT
+
+console.log(2 ** 53 - 1);
+console.log(Number.MAX_SAFE_INTEGER);
+
+console.log(92347789899999999446666666665444333222n);
+const bigValue = BigInt(9234778989999999944);
+console.log(bigValue);
+
+console.log(1000n + 2000n);
+
+console.log(7777999992222333344n * 100000n);
+
+const huge = 7777999992222333344n;
+
+const num = 23;
+console.log(huge + BigInt(num));
+
+console.log(23n > 2);
+console.log(23n === 23); // false
+console.log(23n == 23); // true
+
+
+
+
+// Date
+
+const date = new Date();
+console.log(date);
+console.log(new Date("Nov 11 2004"));
+
+console.log(new Date(account1.movementsDates[0]));
+console.log(new Date(0));
+console.log(new Date(3 * 24 * 60 * 60 * 1000));
+
+
+
+
+const now = new Date();
+console.log(now);
+
+console.log(now.getFullYear());
+console.log(now.getMonth() + 1);
+console.log(now.getHours());
+console.log(now.getMinutes());
+console.log(now.getSeconds());
+console.log(now.getDate()); // day
+console.log(now.getDay()); // sunday = 0
+console.log(now.toISOString());
+console.log(now.getTime());
+console.log(new Date(1728192397857));
+console.log(Date.now()); // time stamp
+
+
+*/
