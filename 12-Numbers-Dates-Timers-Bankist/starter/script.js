@@ -21,9 +21,9 @@ const account1 = {
     "2020-01-28T09:15:04.904Z",
     "2020-04-01T10:17:24.185Z",
     "2020-05-08T14:11:59.604Z",
-    "2020-05-27T17:01:17.194Z",
-    "2020-07-11T23:36:17.929Z",
-    "2020-07-12T10:51:36.790Z",
+    "2024-10-04T17:01:17.194Z",
+    "2024-10-06T11:36:17.929Z",
+    "2024-10-07T10:51:36.790Z",
   ],
   currency: "EUR",
   locale: "pt-PT", // de-DE
@@ -81,6 +81,23 @@ const inputClosePin = document.querySelector(".form__input--pin");
 /////////////////////////////////////////////////
 // Functions
 
+const formatMovementDate = function (date) {
+  const calcDaysPassed = (date1, date2) =>
+    Math.round(Math.abs(date2 - date1) / (1000 * 60 * 60 * 24));
+
+  const daysPassed = calcDaysPassed(new Date(), date);
+  console.log(daysPassed);
+
+  if (daysPassed === 0) return "Today";
+  if (daysPassed === 1) return "Yesterday";
+  if (daysPassed <= 7) return `${daysPassed} days ago`;
+
+  const day = `${date.getDate()}`.padStart(2, 0);
+  const month = `${date.getMonth() + 1}`.padStart(2, 0);
+  const year = date.getFullYear();
+  return `${day}/${month}/${year}`;
+};
+
 const displayMovement = function (acc, sort = false) {
   containerMovements.innerHTML = "";
   const movs = sort
@@ -90,11 +107,7 @@ const displayMovement = function (acc, sort = false) {
     const type = value > 0 ? "deposit" : "withdrawal";
     const date = new Date(acc.movementsDates[idx]);
 
-    const month = `${date.getMonth() + 1}`.padStart(2, 0);
-    const displayDate = `${String(date.getDate()).padStart(
-      2,
-      0
-    )}/${month}/${date.getFullYear()}`;
+    const displayDate = formatMovementDate(date);
 
     const html = `
     <div class="movements__row">
@@ -170,14 +183,13 @@ btnLogin.addEventListener("click", function (e) {
     // Date
 
     const now = new Date();
-    const month = `${now.getMonth() + 1}`.padStart(2, 0);
-    const hours = `${now.getHours()}`.padStart(2, 0);
-    const min = `${now.getMinutes()}`.padStart(2, 0);
-    labelDate.textContent = `${String(now.getDate()).padStart(
-      2,
-      0
-    )}/${month}/${now.getFullYear()},${hours}:${min}`;
 
+    const day = `${now.getDate()}`.padStart(2, 0);
+    const month = `${now.getMonth() + 1}`.padStart(2, 0);
+    const year = now.getFullYear();
+    const hour = `${now.getHours()}`.padStart(2, 0);
+    const min = `${now.getMinutes()}`.padStart(2, 0);
+    labelDate.textContent = `${day}/${month}/${year}, ${hour}:${min}`;
     displayUI(currentAccount);
   }
 });
@@ -185,20 +197,29 @@ btnLogin.addEventListener("click", function (e) {
 // Transfer
 btnTransfer.addEventListener("click", function (e) {
   e.preventDefault();
-  const transTo = inputTransferTo.value;
-  const transAmount = Number(inputTransferAmount.value);
-  const targetAccount = accounts.find((acc) => acc.userName === transTo);
-  if (
-    transAmount > 0 &&
-    currentAccount.balence >= transAmount &&
-    targetAccount?.userName !== currentAccount.userName
-  ) {
-    currentAccount.movements.push(transAmount * -1);
-    targetAccount.movements.push(transAmount);
-    inputTransferTo.value = inputTransferAmount.value = "";
+  const amount = +inputTransferAmount.value;
+  const receiverAcc = accounts.find(
+    (acc) => acc.userName === inputTransferTo.value
+  );
+  inputTransferAmount.value = inputTransferTo.value = "";
 
-    currentAccount.movementsDates.push(new Date().toDateString());
-    targetAccount.movementsDates.push(new Date().toDateString());
+  console.log(amount, receiverAcc);
+
+  if (
+    amount > 0 &&
+    receiverAcc &&
+    currentAccount.balance >= amount &&
+    receiverAcc?.userName !== currentAccount.userName
+  ) {
+    // Doing the transfer
+    currentAccount.movements.push(-amount);
+    receiverAcc.movements.push(amount);
+
+    // Add transfer date
+    currentAccount.movementsDates.push(new Date().toISOString());
+    receiverAcc.movementsDates.push(new Date().toISOString());
+
+    // Update UI
     displayUI(currentAccount);
   }
 });
@@ -214,7 +235,7 @@ btnLoan.addEventListener("click", function (e) {
     )
   ) {
     currentAccount.movements.push(Number(inputLoanAmount.value));
-    currentAccount.movementsDates.push(new Date().toDateString());
+    currentAccount.movementsDates.push(new Date().toISOString());
     displayUI(currentAccount);
   }
   inputLoanAmount.value = "";
@@ -374,4 +395,10 @@ console.log(new Date(1728192397857));
 console.log(Date.now()); // time stamp
 
 
+
+
+const calcMonthPassed = (date1, date2) =>
+  (date2 - date1) / (1000 * 60 * 60 * 24 * 7 * 4);
+
+console.log(calcMonthPassed(new Date(2004, 11, 11), Date.now()));
 */
