@@ -86,7 +86,6 @@ const formatMovementDate = function (date, locale) {
     Math.round(Math.abs(date2 - date1) / (1000 * 60 * 60 * 24));
 
   const daysPassed = calcDaysPassed(new Date(), date);
-  console.log(daysPassed);
 
   if (daysPassed === 0) return "Today";
   if (daysPassed === 1) return "Yesterday";
@@ -195,6 +194,24 @@ let currentAccount;
 // displayUI(currentAccount);
 // containerApp.style.opacity = "1";
 
+const logOutTimer = function () {
+  const tick = function () {
+    const min = String(Math.trunc(time / 60)).padStart(2, "0");
+    const sec = String(time % 60).padStart(2, "0");
+    labelTimer.textContent = `${min}:${sec}`;
+
+    if (time === 0) {
+      clearInterval(timer);
+      labelWelcome.textContent = "log in to get started";
+      containerApp.style.opacity = "0";
+    }
+    time--;
+  };
+  let time = 10;
+  tick();
+  const timer = setInterval(tick, 1000);
+};
+
 btnLogin.addEventListener("click", function (e) {
   e.preventDefault();
   currentAccount = accounts.find(
@@ -230,6 +247,7 @@ btnLogin.addEventListener("click", function (e) {
     // const hour = `${now.getHours()}`.padStart(2, 0);
     // const min = `${now.getMinutes()}`.padStart(2, 0);
     // labelDate.textContent = `${day}/${month}/${year}, ${hour}:${min}`;
+    logOutTimer();
     displayUI(currentAccount);
   }
 });
@@ -242,8 +260,6 @@ btnTransfer.addEventListener("click", function (e) {
     (acc) => acc.userName === inputTransferTo.value
   );
   inputTransferAmount.value = inputTransferTo.value = "";
-
-  console.log(amount, receiverAcc);
 
   if (
     amount > 0 &&
@@ -268,15 +284,18 @@ btnTransfer.addEventListener("click", function (e) {
 
 btnLoan.addEventListener("click", function (e) {
   e.preventDefault();
+  const amount = Math.floor(inputLoanAmount.value);
+
   if (
-    Number(inputLoanAmount.value) > 0 &&
-    currentAccount.movements.some(
-      (mov) => mov >= Number(inputLoanAmount.value) * 0.1
-    )
+    amount > 0 &&
+    currentAccount.movements.some((mov) => mov >= amount * 0.1)
   ) {
-    currentAccount.movements.push(Number(inputLoanAmount.value));
-    currentAccount.movementsDates.push(new Date().toISOString());
-    displayUI(currentAccount);
+    setTimeout(function () {
+      currentAccount.movements.push(Number(amount));
+      console.log(amount);
+      currentAccount.movementsDates.push(new Date().toISOString());
+      displayUI(currentAccount);
+    }, 3000);
   }
   inputLoanAmount.value = "";
 });
@@ -451,5 +470,31 @@ const options = {
 const formatted = new Intl.NumberFormat("ar-EG", options).format(num);
 console.log(formatted);
 
+
+
+
+// set time out
+const ings = ["olive", "tomato"];
+
+const pizzaTimer = setTimeout(
+  (toppings) => console.log(`Here is Your Pizza ${toppings[0]}`),
+  3000,
+  ings
+);
+console.log("Waiting...");
+
+if (ings.includes("olive")) {
+  clearTimeout(pizzaTimer);
+}
+
+
+// setinterval
+
+setInterval(function () {
+  const time = new Intl.DateTimeFormat(navigator.language, {
+    timeStyle: "medium",
+  }).format(new Date());
+  console.log(time);
+}, 1000);
 
 */
