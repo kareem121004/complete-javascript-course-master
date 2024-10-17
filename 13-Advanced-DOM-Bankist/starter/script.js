@@ -7,6 +7,8 @@ const modal = document.querySelector('.modal');
 const overlay = document.querySelector('.overlay');
 const btnCloseModal = document.querySelector('.btn--close-modal');
 const btnsOpenModal = document.querySelectorAll('.btn--show-modal');
+const btnScrollTo = document.querySelector('.btn--scroll-to');
+const section1 = document.getElementById('section--1');
 
 const openModal = function (e) {
   e.preventDefault();
@@ -30,10 +32,35 @@ document.addEventListener('keydown', function (e) {
   }
 });
 
-///////////////////////////////////////
-///////////////////////////////////////
-///////////////////////////////////////
+btnScrollTo.addEventListener('click', function (e) {
+  const s1Coordinates = section1.getBoundingClientRect(); // coordinates
+  // console.log(s1Coordinates);
+  // console.log('Current Scroll (x/y)', window.pageXOffset, window.pageYOffset);  // x , y
 
+  // Scrolling
+
+  // window.scrollTo(
+  //   s1Coordinates.left + window.pageXOffset,
+  //   s1Coordinates.top + window.pageYOffset
+  // );
+
+  // Smooth Scrolling
+
+  // window.scrollTo({
+  //   left: s1Coordinates.left + window.pageXOffset,
+  //   top: s1Coordinates.top + window.pageYOffset,
+  //   behavior: 'smooth',
+  // });
+
+  // Modern Way
+
+  section1.scrollIntoView({ behavior: 'smooth' });
+});
+
+///////////////////////////////////////
+///////////////////////////////////////
+///////////////////////////////////////
+/*
 ///////////////////////////////////////
 // Selecting, Creating, and Deleting Elements
 
@@ -80,3 +107,34 @@ document
     message.remove(); // recent way
     // message.parentElement.removeChild(message); // old way
   });
+
+// Styles
+
+message.style.backgroundColor = 'navy';
+message.style.width = '120%';
+// message.style.setProperty('color', 'red');
+
+console.log(message.style.color); // None can't access sheet ele
+console.log(message.style.backgroundColor); // navy
+
+console.log(getComputedStyle(message).color); // rgb(187, 187, 187)
+console.log(getComputedStyle(message).height); // 114px
+
+document.documentElement.style.setProperty('--color-primary', 'orangered');
+
+// Attributes
+
+const logo = document.querySelector('.nav__logo');
+console.log(logo.alt);
+console.log(logo.src);
+console.log(logo.designer); // undefined
+
+console.log(logo.getAttribute('designer')); // karim
+console.log(logo.getAttribute('src'));
+
+logo.alt = 'minimal logo';
+logo.setAttribute('company', 'Bankist');
+
+console.log(logo.getAttribute('data-version-number'));
+console.log(logo.dataset.versionNumber);
+*/
