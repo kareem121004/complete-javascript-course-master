@@ -137,4 +137,41 @@ logo.setAttribute('company', 'Bankist');
 
 console.log(logo.getAttribute('data-version-number'));
 console.log(logo.dataset.versionNumber);
+
+
+const h1 = document.querySelector('h1');
+
+const alertH1 = function () {
+  alert('U hovered over the ele');
+  h1.removeEventListener('mouseenter', alertH1);
+};
+h1.addEventListener('mouseenter', alertH1);
+
+// h1.onmouseenter = alertH1;
+
 */
+
+const randomInt = (max, min) =>
+  Math.floor(Math.random() * (max - min + 1) + min);
+
+const randomRGB = () =>
+  `rgb(${randomInt(0, 255)}, ${randomInt(0, 255)}, ${randomInt(0, 255)})`;
+
+document.querySelector('.nav__link').addEventListener('click', function (e) {
+  this.style.backgroundColor = randomRGB();
+  console.log('LINK', e.target, e.currentTarget); // target = the element that we clicked, currentTarget = current element
+  console.log(e.currentTarget === this); // true
+
+  // stop propagation or bubbling
+  // e.stopPropagation();
+});
+
+document.querySelector('.nav__links').addEventListener('click', function (e) {
+  this.style.backgroundColor = randomRGB();
+  console.log('CONTAINER', e.target, e.currentTarget);
+});
+
+document.querySelector('.nav').addEventListener('click', function (e) {
+  this.style.backgroundColor = randomRGB();
+  console.log('NAV', e.target, e.currentTarget);
+});
