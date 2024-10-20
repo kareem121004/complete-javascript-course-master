@@ -58,6 +58,32 @@ btnScrollTo.addEventListener('click', function (e) {
 });
 
 ///////////////////////////////////////
+
+// Page Navigation
+
+// document.querySelectorAll('.nav__link').forEach(function (ele, idx) {
+//   ele.addEventListener('click', function (e) {
+//     e.preventDefault();
+//     // const id = this.getAttribute('href');
+//     // const section = document.querySelector(id);
+//     const section = document.getElementById(`section--${idx + 1}`);
+//     section.scrollIntoView({ behavior: 'smooth' });
+//   });
+// });
+
+// better solution using bubbling
+
+document.querySelector('.nav__links').addEventListener('click', function (e) {
+  e.preventDefault();
+
+  // Matching Strategy
+  if (e.target.classList.contains('nav__link')) {
+    const id = e.target.getAttribute('href');
+    const section = document.querySelector(id);
+    section.scrollIntoView({ behavior: 'smooth' });
+  }
+});
+
 ///////////////////////////////////////
 ///////////////////////////////////////
 /*
@@ -149,7 +175,7 @@ h1.addEventListener('mouseenter', alertH1);
 
 // h1.onmouseenter = alertH1;
 
-*/
+
 
 const randomInt = (max, min) =>
   Math.floor(Math.random() * (max - min + 1) + min);
@@ -175,3 +201,5 @@ document.querySelector('.nav').addEventListener('click', function (e) {
   this.style.backgroundColor = randomRGB();
   console.log('NAV', e.target, e.currentTarget);
 });
+
+*/
