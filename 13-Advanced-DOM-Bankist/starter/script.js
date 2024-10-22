@@ -202,4 +202,41 @@ document.querySelector('.nav').addEventListener('click', function (e) {
   console.log('NAV', e.target, e.currentTarget);
 });
 
+
+
+// DOM Traversing
+const h1 = document.querySelector('h1');
+console.log(h1);
+
+// going downwards: child
+
+console.log(h1.querySelectorAll('.highlight')); // child of h1
+console.log(h1.childNodes); // all the children of h1
+console.log(h1.children); // the element children of h1
+h1.firstElementChild.style.color = 'blue';
+h1.lastElementChild.style.color = 'orangered';
+
+// going upwards: child
+console.log(h1.parentNode);
+console.log(h1.parentElement);
+
+console.log(h1.closest('.header')); // the closest parent
+
+h1.closest('.header').style.background = 'yellow';
+h1.closest('h1').style.color = 'red';
+
+// going sideways: siblings
+
+// we can only get the previous and next Siblings ,but there is a trick
+console.log(h1.previousElementSibling);
+console.log(h1.nextElementSibling);
+
+// trick
+
+console.log(h1.parentElement.children);
+[...h1.parentElement.children].forEach(function (ele) {
+  if (ele !== h1) ele.style.transform = 'scale(0.5)';
+});
+
+
 */
