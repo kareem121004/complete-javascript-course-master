@@ -166,6 +166,57 @@ const headerObserver = new IntersectionObserver(headerCallBack, {
 headerObserver.observe(header);
 
 ///////////////////////////////////////
+
+// Reveal Section
+
+const allSections = document.querySelectorAll('.section');
+const revealSection = function (entries, observer) {
+  const [entry] = entries;
+  // guard
+  if (!entry.isIntersecting) return;
+  entry.target.classList.remove('section--hidden');
+
+  observer.unobserve(entry.target);
+};
+const sectionObserver = new IntersectionObserver(revealSection, {
+  root: null,
+  threshold: 0.15,
+});
+
+allSections.forEach(section => {
+  sectionObserver.observe(section);
+  section.classList.add('section--hidden');
+});
+
+///////////////////////////////////////
+
+// lazy loading images
+
+const imgTarget = document.querySelectorAll('img[data-src]');
+// const imgTarget1 = document.querySelectorAll('.lazy-img');
+const imgLoading = function (entries, observer) {
+  const [entry] = entries;
+
+  if (!entry.isIntersecting) return;
+  entry.target.src = entry.target.getAttribute('data-src');
+
+  entry.target.addEventListener('load', function () {
+    entry.target.classList.remove('lazy-img');
+  });
+
+  observer.unobserve(entry.target);
+};
+const imgObserver = new IntersectionObserver(imgLoading, {
+  root: null,
+  threshold: 0,
+  rootMargin: '200px',
+});
+
+imgTarget.forEach(img => {
+  imgObserver.observe(img);
+});
+
+///////////////////////////////////////
 ///////////////////////////////////////
 /*
 ///////////////////////////////////////
