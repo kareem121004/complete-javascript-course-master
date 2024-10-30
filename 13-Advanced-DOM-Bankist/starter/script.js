@@ -452,4 +452,10 @@ console.log(h1.parentElement.children);
 });
 
 
+
+window.addEventListener('beforeunload', function (e) {
+  e.preventDefault();
+  console.log(e);
+  e.returnValue = '';
+});
 */
