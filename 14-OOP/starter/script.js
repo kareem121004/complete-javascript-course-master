@@ -1,5 +1,6 @@
 "use strict";
 
+/*
 const Person = function (firstName, birthYear) {
   // Attributes
   this.firstName = firstName;
@@ -73,3 +74,62 @@ car1.accelerate();
 car1.brake();
 car2.brake();
 car2.accelerate();
+*/
+
+// ES6 OOP
+
+class Person {
+  constructor(fullName, birthYear) {
+    this.fullName = fullName;
+    this.birthYear = birthYear;
+  }
+
+  calcAge() {
+    console.log(2024 - this.birthYear);
+  }
+
+  set fullName(name) {
+    console.log(name);
+    if (name.includes(" ")) this._fullName = name;
+    else alert("not full");
+  }
+
+  get fullName() {
+    return this._fullName;
+  }
+  // static methods    ..... it is not inherited
+  static hey() {
+    console.log("hey there 👋");
+  }
+}
+
+const karim = new Person("Karim adel", 2004);
+karim.calcAge();
+Person.prototype.greet = function () {
+  console.log(`hi ${this.firstName} from prototype`);
+};
+karim.greet();
+
+console.log(karim);
+console.log(karim.fullName);
+Person.hey();
+// karim.hey(); // will not work
+
+// const walt = new Person("walt", 2000);
+
+// const accounts = {
+//   owner: "Karim Adel",
+//   movements: [10, 40, 800, 60],
+
+//   get lMov() {
+//     return this.movements.slice(-1).pop();
+//   },
+
+//   set movemnt(mov) {
+//     this.movements.push(mov);
+//   },
+// };
+
+// console.log(accounts.lMov);
+// accounts.movemnt = 700;
+// console.log(accounts);
