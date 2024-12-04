@@ -283,4 +283,123 @@ tesla.brake();
 tesla.chargeBattery(90);
 tesla.accelerate();
 
+
+
+class PersonCl {
+  constructor(fullName, birthYear) {
+    this.fullName = fullName;
+    this.birthYear = birthYear;
+  }
+
+  calcAge() {
+    console.log(2024 - this.birthYear);
+  }
+
+  set fullName(name) {
+    console.log(name);
+    if (name.includes(" ")) this._fullName = name;
+    else alert("not full");
+  }
+
+  get fullName() {
+    return this._fullName;
+  }
+  // static methods    ..... it is not inherited
+  static hey() {
+    console.log("hey there 👋");
+  }
+}
+
+class StudentCl extends PersonCl {
+  constructor(fullName, birthYear, course) {
+    super(fullName, birthYear); // IF YOU DON'T HAVE ADDITIONAL ATTS , THERE IS NO NEED TO CREATE A CONSTRUCTOR.
+    this.course = course;
+  }
+
+  intro() {
+    console.log(`my name is ${this.fullName}, and i study ${this.course}`);
+  }
+  // OVERRIDE THE CALC METHOD
+
+  calcAge() {
+    console.log(`i feel like i'm ${2024 - this.birthYear + 10}`);
+  }
+}
+
+const karim = new StudentCl("Karim Adel", 2004, "CS");
+karim.intro();
+karim.calcAge();
+
+
+
+// using the object create method
+
+const PersonProto = {
+  calcAge() {
+    return 2024 - this.birthYear;
+  },
+
+  init(FirstName, birthYear) {
+    this.FirstName = FirstName;
+    this.birthYear = birthYear;
+  },
+};
+
+const StudentProto = Object.create(PersonProto);
+
+StudentProto.init = function (FirstName, birthYear, course) {
+  PersonProto.init.call(this, FirstName, birthYear);
+  this.course = this.course;
+};
+
+const karim = Object.create(StudentProto);
+karim.init("karim adel", 20, "CS");
+console.log(karim.calcAge());
+
+
+
+// Real Example
+
+class Account {
+  constructor(owner, pin, currency) {
+    this.owner = owner;
+    this.pin = pin;
+    this.currency = currency;
+
+    // A convention to let Developers know that the ATT is private.
+    this._movements = [];
+    this.locale = navigator.language;
+
+    console.log(`Thanks ${this.owner} for opening an account in our bank...`);
+  }
+
+  deposit(val) {
+    this.movements.push(val);
+  }
+  withdraw(val) {
+    this.deposit(-val);
+  }
+
+  approvloan(val) {
+    return true;
+  }
+
+  requestloan(val) {
+    if (this.approvloan(val)) {
+      this.deposit(val);
+      console.log(
+        `Loan approved ,and ${val}${this.currency} will be added in your account`
+      );
+    }
+  }
+}
+
+const acc1 = new Account("Karim", 1111, "£");
+acc1.deposit(100);
+acc1.deposit(700);
+acc1.withdraw(90);
+acc1.requestloan(20000);
+
 */
+
+// Encapsulation
