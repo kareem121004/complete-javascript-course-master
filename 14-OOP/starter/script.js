@@ -357,40 +357,58 @@ karim.init("karim adel", 20, "CS");
 console.log(karim.calcAge());
 
 
-
 // Real Example
+// Encapsulation
+
+// 1) Public fields
+// 2) Private fields
+// 3) Public methods
+// 4) Private methods
 
 class Account {
+  // 1) Public fields (instances)
+  locale = navigator.language;
+
+  // 2) Private fields (instances)
+  #movements = [];
+  #pin;
+
   constructor(owner, pin, currency) {
     this.owner = owner;
-    this.pin = pin;
+    this.#pin = pin;
     this.currency = currency;
 
     // A convention to let Developers know that the ATT is private.
-    this._movements = [];
-    this.locale = navigator.language;
+    // this._movements = [];
+    // this.locale = navigator.language;
 
     console.log(`Thanks ${this.owner} for opening an account in our bank...`);
   }
 
+  // 3) Public methods
+
   deposit(val) {
-    this.movements.push(val);
+    this.#movements.push(val);
+    return this;
   }
   withdraw(val) {
     this.deposit(-val);
-  }
-
-  approvloan(val) {
-    return true;
+    return this;
   }
 
   requestloan(val) {
-    if (this.approvloan(val)) {
+    if (this.#approvloan(val)) {
       this.deposit(val);
       console.log(
         `Loan approved ,and ${val}${this.currency} will be added in your account`
       );
+      return this;
     }
+  }
+
+  // 4) Private methods
+  #approvloan(val) {
+    return true;
   }
 }
 
@@ -399,7 +417,12 @@ acc1.deposit(100);
 acc1.deposit(700);
 acc1.withdraw(90);
 acc1.requestloan(20000);
+// console.log(acc1.#pin);
+// console.log(acc1.#approvloan());
+
+// Chaining
+acc1.deposit(300).deposit(500).withdraw(35).requestloan(25000).withdraw(4000);
+console.log(acc1);
+
 
 */
-
-// Encapsulation
