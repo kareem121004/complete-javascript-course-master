@@ -68,6 +68,7 @@ class App {
 
   constructor() {
     this.#getPosition();
+    this.#getLOcalStorage();
     form.addEventListener("submit", this.#newWorkout.bind(this));
     inputType.addEventListener("change", this.#toggleElevationField);
     containerWorkouts.addEventListener("click", this.#moveToPopup.bind(this));
@@ -96,6 +97,9 @@ class App {
     }).addTo(this.#map);
 
     this.#map.on("click", this.#showForm.bind(this));
+    this.#workouts.forEach((work) => {
+      this.#renderWorkoutMarker(work);
+    });
   }
 
   #showForm(mapE) {
@@ -164,6 +168,8 @@ class App {
 
     this.#renderWorkout(workout);
     this.#hideForm();
+
+    this.#SetLocalStorage();
   }
 
   #renderWorkoutMarker(workout) {
@@ -205,7 +211,7 @@ class App {
       html += `
       <div class="workout__details">
             <span class="workout__icon">⚡️</span>
-            <span class="workout__value">${workout.pace}</span>
+            <span class="workout__value">${workout.pace.toFixed(1)}</span>
             <span class="workout__unit">min/km</span>
           </div>
           <div class="workout__details">
@@ -219,7 +225,7 @@ class App {
       html += `
       <div class="workout__details">
             <span class="workout__icon">⚡️</span>
-            <span class="workout__value">${workout.speed}</span>
+            <span class="workout__value">${workout.speed.toFixed(1)}</span>
             <span class="workout__unit">km/h</span>
           </div>
           <div class="workout__details">
@@ -245,6 +251,26 @@ class App {
         duration: 1,
       },
     });
+  }
+
+  #SetLocalStorage() {
+    localStorage.setItem("Workouts", JSON.stringify(this.#workouts));
+  }
+
+  #getLOcalStorage() {
+    const data = JSON.parse(localStorage.getItem("Workouts"));
+    if (!data) return;
+
+    this.#workouts = data;
+
+    this.#workouts.forEach((work) => {
+      this.#renderWorkout(work);
+    });
+  }
+
+  reset() {
+    localStorage.removeItem("Workouts");
+    location.reload();
   }
 }
 
